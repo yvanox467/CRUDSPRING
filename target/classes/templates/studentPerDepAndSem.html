@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="view2" id="fac-data">
+            <div class="header">
+                <div class="head">
+                    <h2>Academic System</h2>
+                    <small>List Student per Semester and Department</small>
+                </div>
+                <a th:href="@{/}" class="backBtn">Back</a>
+            </div>
+
+        <form action="studentPerDepAndSem" method="get" id="form" class="frm" th:object="${depNSemForm}">
+            <div class="form-input">
+                <label for="department" class="lbl"></label>
+                <select name="department" id="department" th:field="*{unit.id}">
+                    <option value="select">Select department</option>
+
+                    <th:block th:each="d : ${departmentList}">
+                        <option th:if="${d.unit.name == 'DEPARTMENT'}" th:value="${d.id}">
+                            [[${d.name}]]
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="form-input">
+                <label for="semester" class="lbl"></label>
+                <select name="semName" id="semester" th:field="*{semester.id}">
+                    <option value="select">Select Semester</option>
+                    <th:block th:each="sem : ${semesterList}">
+                        <option th:value="${sem.id}">
+                            [[${sem.name}]]
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <button type="submit">Find</button>
+        </form>
+        <table>
+            <thead>
+            <tr>
+                <th style="display: none;">#</th>
+                <th>Reg No</th>
+                <th>Student Names</th>
+                <th>Semester</th>
+                <th>Department</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reg: ${studentList}">
+                <td th:text="${reg.id}" style="display: none;"></td>
+                <td th:text="${reg.student.regNo}"></td>
+                <td th:text="${reg.student.fullNames}"></td>
+                <td th:text="${reg.semester.name}"></td>
+                <td th:text="${reg.unit.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "studentPerDepAndSem";
+        form.submit();
+    });
+</script>

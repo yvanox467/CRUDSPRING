@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+    <title>WebTech-Dashboard</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="header">
+            <div class="head">
+                <h2>Academic System</h2>
+                <small>Manage Student Registration</small>
+            </div>
+            <a th:href="@{/}" class="backBtn">Back</a>
+        </div>
+
+        <div class="semester">
+            <div class="view">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="display: none;">#</th>
+                            <th>RegNo</th>
+                            <th>Student Names</th>
+                            <th>Semester</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="reg: ${registrationList}">
+                            <td th:text="${reg.id}" style="display: none;"></td>
+                            <td th:text="${reg.student.regNo}"></td>
+                            <td th:text="${reg.student.fullNames}"></td>
+                            <td th:text="${reg.semester.name}"></td>
+                            <td th:text="${reg.registrationDate}"></td>
+                            <td th:text="${reg.status.name}"></td>
+                            <td>
+                                <div class="tdAction">
+                                    <button class="updateBtn">?</button>
+                                    <button class="deleteBtn">x</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions">
+                    <div class="hd">
+                        <h3>Add/Update Semester</h3>
+                    </div>
+                    <form action="saveRegistration" method="post" id="form" th:object="${regForm}">
+                        <input type="hidden" id="id" name="id" th:field="*{id}" />
+                        <div class="form-input">
+                            <label for="student">Student</label>
+                            <select name="regNo" id="student" th:field="*{student.id}">
+                            <option value="null">Select Student</option>
+                                <th:block th:each="st : ${studentList}">
+                                    <option th:value="${st.id}">
+                                        [[${st.regNo} ]] [[${st.fullNames}]]
+                                    </option>
+                                </th:block>
+                        </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="unit">Select Academic Unit</label>
+                            <select name="unit" id="unit" th:field="*{unit.id}">
+                                <option value="null">Select Unit</option>
+                                <th:block th:each="unit : ${unitList}">
+                                    <option th:if="${unit.unit.name == 'DEPARTMENT'}" th:value="${unit.id}">
+                                        [[${unit.name}]]
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="semester">Start Date</label>
+                            <select name="semester" id="semester" th:field="*{semester.id}">
+                                <option value="null">Select Semester</option>
+                                <th:block th:each="sem : ${semList}">
+                                    <option th:value="${sem.id}">
+                                        [[${sem.name}]]
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="status">Status</label>
+                            <select name="status" id="status">
+                                <option value="null">Select Status</option>
+                                <option value="PENDING">PENDING</option>
+                                <option value="ADMITTED">ADMITTED</option>
+                                <option value="REJECTED">REJECTED</option>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="regDate">Registration Date</label>
+                            <input type="date" name="regDate" id="regDate" required th:field="*{registrationDate}"/>
+                        </div>
+                        <input type="submit" id="formBtn" value="Submit" name="action" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+    const updateButtons = document.querySelectorAll('.updateBtn');
+    const deleteButtons = document.querySelectorAll('.deleteBtn');
+    const srIdInput = document.getElementById('id');
+    const stRegNoInput = document.getElementById('student');
+    const unitInput = document.getElementById('unit');
+    const semesterInput = document.getElementById('semester');
+    const regDateInput = document.getElementById('regDate');
+    const formBtn = document.getElementById('formBtn');
+
+    updateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            srIdInput.value = cells[0].textContent;
+            stRegNoInput.value = cells[1].textContent;
+            unitInput.value = cells[2].textContent;
+            semesterInput.value = cells[3].textContent;
+            regDateInput.value = cells[4].textContent;
+            formBtn.value = 'Update';
+            formBtn.style.backgroundColor = '#2b9b58';
+        });
+    })
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            srIdInput.value = cells[0].textContent;
+            stRegNoInput.value = cells[1].textContent;
+            unitInput.value = cells[2].textContent;
+            semesterInput.value = cells[3].textContent;
+            regDateInput.value = cells[4].textContent;
+            formBtn.value = 'Delete';
+            formBtn.style.backgroundColor = '#d13a3a';
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "saveRegistration?action=" + formBtn.value;
+        form.submit();
+    });
+</script>

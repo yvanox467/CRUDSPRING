@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebTech-Dashboard</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" />
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="header">
+            <div class="head">
+                <h2>Academic System</h2>
+                <small>Manage Courses</small>
+            </div>
+            <a th:href="@{/}" class="backBtn">Back</a>
+        </div>
+
+
+        <div class="semester">
+            <div class="view">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="display: none;">#</th>
+                            <th>Course Name</th>
+                            <th>Semester</th>
+                            <th>Teacher</th>
+                            <th>Department</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="crs: ${courseList}">
+                            <td th:text="${crs.id}" style="display: none;"></td>
+                            <td th:text="${crs.courseDefinition.name}"></td>
+                            <td th:text="${crs.semester.name}"></td>
+                            <td th:text="${crs.teacher.name}"></td>
+                            <td th:text="${crs.department.name}"></td>
+                            <td>
+                                <div class="tdAction">
+                                    <button class="updateBtn">?</button>
+                                    <button class="deleteBtn">x</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions">
+                    <div class="hd">
+                        <h3>Add/Update Semester</h3>
+                    </div>
+                    <form action="saveCourse" method="post" id="form" th:object="${courseForm}">
+                        <input type="hidden" id="id" name="id" th:field="*{id}" />
+                        <div class="form-input">
+                            <label for="course">Course Definition</label>
+                            <select name="course" id="course" th:field="*{courseDefinition.id}">
+                                <option value="null">Select Course</option>
+                                <th:block th:each="def : ${definitionList}">
+                                    <option th:value="${def.id}">[[${def.name}]]</option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="department">Department</label>
+                            <select name="department" id="department" th:field="*{department.id}">
+                                <option value="null">Select Semester</option>
+                                <th:block th:each="dep : ${unitList}">
+                                    <option th:if="${dep.unit.name == 'DEPARTMENT'}" th:value="${dep.id}">
+                                        [[${dep.name}]]
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="semester">Semester</label>
+                            <select name="semester" id="semester" th:field="*{semester.id}">
+                                <option value="null">Select Semester</option>
+                                <th:block th:each="sem : ${semesterList}">
+                                    <option th:value="${sem.id}">
+                                        [[${sem.name}]]
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="teacher">Teacher</label>
+                            <select name="teacher" id="teacher" th:field="*{teacher.id}">
+                                <option value="null">Select Teacher</option>
+                                <th:block th:each="tr : ${teacherList}">
+                                    <option th:value="${tr.id}">
+                                        [[${tr.name}]]
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <input type="submit" id="formBtn" value="Submit" name="action" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+    const updateButtons = document.querySelectorAll('.updateBtn');
+    const deleteButtons = document.querySelectorAll('.deleteBtn');
+    const courseIdInput = document.getElementById('id');
+    const courseNameInput = document.getElementById('course');
+    const semesterInput = document.getElementById('semester');
+    const teacherInput = document.getElementById('teacher');
+    const departmentInput = document.getElementById('department');
+    const formBtn = document.getElementById('formBtn');
+
+    updateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            courseIdInput.value = cells[0].textContent;
+            courseNameInput.value = cells[1].textContent;
+            semesterInput.value = cells[2].textContent;
+            teacherInput.value = cells[3].textContent;
+            departmentInput.value = cells[4].textContent;
+            formBtn.value = 'Update';
+            formBtn.style.backgroundColor = '#2b9b58';
+        });
+    })
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            courseIdInput.value = cells[0].textContent;
+            courseNameInput.value = cells[1].textContent;
+            semesterInput.value = cells[2].textContent;
+            teacherInput.value = cells[3].textContent;
+            departmentInput.value = cells[4].textContent;
+            formBtn.value = 'Delete';
+            formBtn.style.backgroundColor = '#d13a3a';
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "saveCourse?action=" + formBtn.value;
+        form.submit();
+    });
+</script>

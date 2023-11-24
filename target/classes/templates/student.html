@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebTech-Teacher</title>
+    <link rel="stylesheet"  th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="header">
+            <div class="head">
+                <h2>Academic System</h2>
+                <small>Manage Students</small>
+            </div>
+            <a th:href="@{/}" class="backBtn">Back</a>
+        </div>
+
+        <div class="semester">
+            <div class="view">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="display: none;">#</th>
+                            <th>Code</th>
+                            <th>Names</th>
+                            <th>Qualification</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="st: ${studentList}">
+                            <td th:text="${st.id}" style="display: none;"></td>
+                            <td th:text="${st.regNo}"></td>
+                            <td th:text="${st.fullNames}"></td>
+                            <td th:text="${st.dob}"></td>
+                            <td>
+                                <div class="tdAction">
+                                    <button class="updateBtn">?</button>
+                                    <button class="deleteBtn">x</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions">
+                    <div class="hd">
+                        <h3>Add/Update Teachers</h3>
+                    </div>
+                    <form action="saveStudent" method="post" id="form" th:object="${studentForm}">
+                        <input type="hidden" id="id" name="id" th:field="*{id}" />
+                        <div class="form-input">
+                            <label for="regNo">Student regNo</label>
+                            <input type="text" name="regNo" id="regNo" required th:field="*{regNo}"/>
+                        </div>
+                        <div class="form-input">
+                            <label for="name">Student Names</label>
+                            <input type="text" name="name" id="name" required th:field="*{fullNames}"/>
+                        </div>
+                        <div class="form-input">
+                            <label for="dob">Student DOB</label>
+                            <input type="date" name="dob" id="dob" required th:field="*{dob}"/>
+                        </div>
+                        <input type="submit" id="formBtn" value="Submit" name="action" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+    const updateButtons = document.querySelectorAll('.updateBtn');
+    const deleteButtons = document.querySelectorAll('.deleteBtn');
+    const studIdInput = document.getElementById('id');
+    const studRegNoInput = document.getElementById('regNo')
+    const nameInput = document.getElementById('name');
+    const dobInput = document.getElementById('dob');
+    const formBtn = document.getElementById('formBtn');
+
+    updateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            studIdInput.value = cells[0].textContent;
+            studRegNoInput.value = cells[1].textContent;
+            nameInput.value = cells[2].textContent;
+            dobInput.value = cells[3].textContent;
+            formBtn.value = 'Update';
+            formBtn.style.backgroundColor = '#2b9b58';
+        });
+    })
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            studIdInput.value = cells[0].textContent;
+            studRegNoInput.value = cells[1].textContent;
+            nameInput.value = cells[2].textContent;
+            dobInput.value = cells[3].textContent;
+            formBtn.value = 'Delete';
+            formBtn.style.backgroundColor = '#d13a3a';
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "saveStudent?action=" + formBtn.value;
+        form.submit();
+    });
+</script>

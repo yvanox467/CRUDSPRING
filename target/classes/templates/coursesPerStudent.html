@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="view2" id="fac-data">
+            <div class="header">
+                <div class="head">
+                    <h2>Academic System</h2>
+                    <small>List Courses per Student</small>
+                </div>
+                <a th:href="@{/}" class="backBtn">Back</a>
+            </div>
+
+            <form action="coursesPerStudent" method="get" id="form" class="frm" th:object="${stForm}">
+                <div class="form-input">
+                    <label for="student" class="lbl">Choose Student</label>
+                    <select name="student" id="student" th:field="*{id}">
+                        <option value="select">Select Course</option>
+                        <th:block th:each="st : ${studentList}">
+                            <option th:value="${st.id}">
+                                [[${st.regNo}]] [[${st.fullNames}]]
+                            </option>
+                        </th:block>
+                    </select>
+                </div>
+                <button type="submit">Find</button>
+            </form>
+        <table>
+            <thead>
+            <tr>
+                <th style="display: none;">#</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Credits</th>
+                <th>Results</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cr: ${courseList}">
+                <td th:text="${cr.id}" style="display: none;"></td>
+                <td th:text="${cr.course.courseDefinition.code}"></td>
+                <td th:text="${cr.course.courseDefinition.name}"></td>
+                <td th:text="${cr.credits}"></td>
+                <td th:text="${cr.results}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</section>
+</body>
+</html>
+
+
+<script defer>
+    const form = document.getElementById("form");
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "coursesPerStudent";
+        form.submit();
+    });
+</script>

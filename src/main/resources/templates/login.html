@@ -1,0 +1,94 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+<body>
+<div class="section">
+    <div class="banner">
+        <h1 class="logo">Web Technology</h1>
+    </div>
+    <div class="login-section">
+        <div class="login-card active" id="login">
+            <div class="header">
+                <h3 class="header">Login</h3>
+            </div>
+            <form action="../services/authenticate.jsp" method="post">
+                <div class="form-error">
+                    <small style="color: darkred;">${accountBean.errorMessage}</small>
+                    <small style="color: green;">${accountBean.infoMessage}</small>
+                </div>
+                <div class="form-input">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" value="${accountBean.email}" />
+                </div>
+                <div class="form-input">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" value="${accountBean.password}" />
+                </div>
+                <button type="submit">Login</button>
+                <p class="form-check">
+                    New here? <a href="#" id="registerLink">Register</a>
+                </p>
+            </form>
+        </div>
+
+        <div class="register-card" id="register">
+            <div class="header">
+                <h3 class="header">Register</h3>
+            </div>
+            <form action="../services/createAccount.jsp" method="post">
+                <div class="form-error">
+                    <small style="color: darkred;">${accountBean.errorMessage}</small>
+                    <small style="color: green;">${accountBean.infoMessage}</small>
+                </div>
+                <div class="form-input">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" />
+                </div>
+                <div class="form-input">
+                    <label for="email2">Email</label>
+                    <input type="email" name="email" id="email2" />
+                </div>
+                <div class="form-input">
+                    <label for="phone">Phone</label>
+                    <input type="tel" name="phone" id="phone" />
+                </div>
+                <div class="form-input">
+                    <label for="password2">Password</label>
+                    <input type="password" name="password" id="password2" />
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="agree2" id="agree2" />
+                    <label for="agree2"
+                    >Agree to <a href="#">Terms and Conditions</a></label
+                    >
+                </div>
+                <button type="submit">Create</button>
+                <p class="form-check">
+                    Already in? <a href="#" id="loginLink">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script defer>
+    const login = document.getElementById("login");
+    const register = document.getElementById("register");
+    const loginLink = document.getElementById("loginLink");
+    const registerLink = document.getElementById("registerLink");
+
+    loginLink.addEventListener("click", () => {
+        login.classList.add("active");
+        register.classList.remove("active");
+    });
+    registerLink.addEventListener("click", () => {
+        register.classList.add("active");
+        login.classList.remove("active");
+    });
+</script>

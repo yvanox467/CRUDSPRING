@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+    <div class="view2" id="fac-data">
+        <div class="header">
+            <div class="head">
+                <h2>Academic System</h2>
+                <small>List Courses Per Department and Semester</small>
+            </div>
+            <a th:href="@{/}" class="backBtn">Back</a>
+        </div>
+
+        <form action="coursesPerDepAndSem" method="get" class="frm" id="form" th:object="${depSemForm}">
+            <div class="form-input">
+                <label for="department" class="lbl"></label>
+                <select name="courseDef" id="department" th:field="*{department.id}">
+                    <option value="select">Select Course</option>
+                    <th:block th:each="d : ${unitList}">
+                        <option th:if="${d.unit.name == 'DEPARTMENT'}" th:value="${d.id}">
+                            [[${d.name}]]
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="form-input">
+                <label for="sem" class="lbl"></label>
+                <select name="semName" id="sem" th:field="*{semester.id}">
+                    <option value="select">Select Semester</option>
+                    <th:block th:each="sem : ${semesterList}">
+                        <option th:value="${sem.id}">
+                            [[${sem.name}]]
+                        </option>
+                    </th:block>
+                </select>
+            </div>
+            <button type="submit">Find</button>
+        </form>
+        <table>
+            <thead>
+            <tr>
+                <th style="display: none;">#</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Semester</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cr: ${courseList}">
+                <td th:text="${cr.id}" style="display: none;"></td>
+                <td th:text="${cr.courseDefinition.code}"></td>
+                <td th:text="${cr.courseDefinition.name}"></td>
+                <td th:text="${cr.semester.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "coursesPerDepAndSem";
+        form.submit();
+    });
+</script>

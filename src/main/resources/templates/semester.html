@@ -1,0 +1,116 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebTech-Dashboard</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="header">
+            <div class="head">
+                <h2>Academic System</h2>
+                <small>Manage Semesters</small>
+            </div>
+            <a th:href="@{/}" class="backBtn">Back</a>
+        </div>
+
+        <div class="semester">
+            <div class="view">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="display: none;">#</th>
+                            <th>Name</th>
+                            <th>StartDate</th>
+                            <th>EndDate</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sem: ${semesterList}">
+                            <td th:text="${sem.id}" style="display: none;"></td>
+                            <td th:text="${sem.name}"></td>
+                            <td th:text="${sem.startDate}"></td>
+                            <td th:text="${sem.endDate}"></td>
+                            <td>
+                                <div class="tdAction">
+                                    <button class="updateBtn">?</button>
+                                    <button class="deleteBtn">x</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions">
+                    <div class="hd">
+                        <h3>Add/Update Semester</h3>
+                    </div>
+                    <form action="saveSemester" method="post" id="form" th:object="${semForm}">
+                        <input type="hidden" id="id" name="id" th:field="*{id}" />
+                        <div class="form-input">
+                            <label for="semName">Semester Name</label>
+                            <input type="text" name="semName" id="semName" required th:field="*{name}"/>
+                        </div>
+                        <div class="form-input">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" name="startDate" id="startDate" required th:field="*{startDate}"/>
+                        </div>
+                        <div class="form-input">
+                            <label for="endDate">End Date</label>
+                            <input type="date" name="endDate" id="endDate" required th:field="*{endDate}"/>
+                        </div>
+                        <input type="submit" id="formBtn" value="Submit" name="action" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+    const updateButtons = document.querySelectorAll('.updateBtn');
+    const deleteButtons = document.querySelectorAll('.deleteBtn');
+    const semIdInput = document.getElementById('id');
+    const semNameInput = document.getElementById('semName');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const formBtn = document.getElementById('formBtn');
+
+    updateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            semIdInput.value = cells[0].textContent;
+            semNameInput.value = cells[1].textContent;
+            startDateInput.value = cells[2].textContent;
+            endDateInput.value = cells[3].textContent;
+            formBtn.value = 'Update';
+            formBtn.style.backgroundColor = '#2b9b58';
+        });
+    })
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            semIdInput.value = cells[0].textContent;
+            semNameInput.value = cells[1].textContent;
+            startDateInput.value = cells[2].textContent;
+            endDateInput.value = cells[3].textContent;
+            formBtn.value = 'Delete';
+            formBtn.style.backgroundColor = '#d13a3a';
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "saveSemester?action=" + formBtn.value;
+        form.submit();
+    });
+</script>

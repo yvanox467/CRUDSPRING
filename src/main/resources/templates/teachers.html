@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebTech-Teacher</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="header">
+            <div class="head">
+                <h2>Academic System</h2>
+                <small>Manage Teachers</small>
+            </div>
+            <a th:href="@{/}" class="backBtn">Back</a>
+        </div>
+
+        <div class="semester">
+            <div class="view">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="display: none;">#</th>
+                            <th>Code</th>
+                            <th>Names</th>
+                            <th>Qualification</th>
+                            <th>Type</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="tr: ${teacherList}">
+                            <td th:text="${tr.id}" style="display: none;"></td>
+                            <td th:text="${tr.code}"></td>
+                            <td th:text="${tr.name}"></td>
+                            <td th:text="${tr.qualification}"></td>
+                            <td th:text="${tr.type}"></td>
+                            <td>
+                                <div class="tdAction">
+                                    <button class="updateBtn">?</button>
+                                    <button class="deleteBtn">x</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions">
+                    <div class="hd">
+                        <h3>Add/Update Teachers</h3>
+                    </div>
+                    <form action="saveTeacher" method="post" id="form" th:object="${teacherForm}">
+                        <input type="hidden" id="id" name="id" th:field="*{id}" />
+                        <div class="form-input">
+                            <label for="name">Teacher Names</label>
+                            <input type="text" name="name" id="name" required th:field="*{name}"/>
+                        </div>
+                        <div class="form-input">
+                            <label for="qualification">Qualification</label>
+                            <select name="qualification" id="qualification" th:field="*{qualification}">
+                                <option value="null">Select Qualification</option>
+                                <option value="MASTER">MASTER</option>
+                                <option value="PHD">PHD</option>
+                                <option value="PROFESSOR">PROFESSOR</option>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="type">Type</label>
+                            <select name="type" id="type" th:field="*{type}">
+                                <option value="null">Select type</option>
+                                <option value="Tutor">Tutor</option>
+                                <option value="AssistantTutor">Assistant Tutor</option>
+                            </select>
+                        </div>
+                        <input type="submit" id="formBtn" value="Submit" name="action" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+    const updateButtons = document.querySelectorAll('.updateBtn');
+    const deleteButtons = document.querySelectorAll('.deleteBtn');
+    const teacherIdInput = document.getElementById('id');
+    const nameInput = document.getElementById('name');
+    const qualificationInput = document.getElementById('qualification');
+    const typeInput = document.getElementById('type');
+    const formBtn = document.getElementById('formBtn');
+
+    updateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            teacherIdInput.value = cells[0].textContent;
+            nameInput.value = cells[2].textContent;
+            qualificationInput.value = cells[3].textContent;
+            typeInput.value = cells[4].textContent;
+            formBtn.value = 'Update';
+            formBtn.style.backgroundColor = '#2b9b58';
+        });
+    })
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            teacherIdInput.value = cells[0].textContent;
+            nameInput.value = cells[2].textContent;
+            qualificationInput.value = cells[3].textContent;
+            typeInput.value = cells[4].textContent;
+            formBtn.value = 'Delete';
+            formBtn.style.backgroundColor = '#d13a3a';
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "saveTeacher?action=" + formBtn.value;
+        form.submit();
+    });
+</script>

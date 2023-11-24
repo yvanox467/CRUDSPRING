@@ -1,0 +1,212 @@
+/* Styles for DashBoard */
+* {
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+.sidebar {
+  height: 100vh;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: whitesmoke;
+  position: fixed;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.logo h2 {
+  padding: 2.5rem 1.5rem;
+  font-size: 30px;
+}
+.menu {
+  margin: 1rem 0;
+  padding: 0 1rem;
+}
+ul li {
+  list-style: none;
+  line-height: 2rem;
+  width: 85%;
+  padding: 12px 1rem;
+  border-radius: 10px;
+}
+ul li a {
+  text-decoration: none;
+  color: #000;
+  border-radius: 10px;
+}
+ul li:hover {
+  background-color: #e7e7e7;
+}
+ul li a:active {
+  color: #8c8cdf;
+}
+
+.logout {
+  width: 100%;
+  padding: 1rem 10%;
+}
+.logout button {
+  padding: 1rem 0;
+  border-radius: 10px;
+  width: 80%;
+  border: 0 solid #000;
+  cursor: pointer;
+}
+.logout button:hover {
+  background-color: lightgray;
+}
+
+section {
+  width: calc(100% - 280px);
+  height: 100vh;
+  float: right;
+  background-color: #e7e7e7;
+  overflow: hidden;
+}
+section .header {
+  padding: 1.5rem 2rem;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header label {
+  font-size: 23px;
+  color: rgb(128, 128, 128);
+  text-transform: uppercase;
+}
+.contents {
+  padding: 2rem;
+}
+
+.semester {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+.view {
+  width: 67%;
+  height: 85vh;
+  overflow-y: auto;
+}
+.view .hd {
+  padding: 1rem;
+}
+.view table {
+  background-color: #f5f5f5;
+  width: 100%;
+  padding: 5px 0;
+  border-radius: 1rem;
+}
+table thead tr th {
+  padding: 0.6rem 0;
+  color: rgb(128, 128, 128);
+  border-right: 1px solid #dbd5d5;
+  border-bottom: 1px solid #dbd5d5;
+}
+table tbody tr td {
+  color: #3a3838;
+  padding: 0.5rem 5px;
+}
+th:last-child {
+  border-right: 0 solid #000;
+}
+td:first-child {
+  text-align: center;
+}
+tbody tr:nth-child(even) {
+  background-color: #e7e7e7;
+}
+.tdAction {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.tdAction button {
+  padding: 0.3rem 0.2rem;
+  border-radius: 2px;
+  border: 0;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+.tdAction button:first-child {
+  background-color: #2b9b58;
+}
+.tdAction button:last-child {
+  background-color: #d13a3a;
+}
+
+.actions {
+  width: 33.3%;
+  height: 77vh;
+  overflow-y: auto;
+  background-color: #fff;
+  padding: 1rem 1rem 3rem 1rem;
+}
+
+.actions .tabs {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #dcd3d3;
+}
+
+.actions .hd {
+  padding: 1rem;
+}
+.actions form {
+  background-color: #f5f5f5;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.form-input input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+textarea {
+  line-height: 35px;
+  padding: 0 1rem;
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #a7a9ac;
+}
+select,
+option {
+  height: 35px;
+  padding: 0 1rem;
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #a7a9ac;
+}
+form button,
+form input[type="submit"] {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 0;
+  background-color: #2b9b58;
+  color: #f0f8ff;
+  font-weight: bold;
+  cursor: pointer;
+}
+form button:hover,
+form input[type="submit"]:hover {
+  background-color: #0c6c3c;
+}

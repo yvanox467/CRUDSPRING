@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>WebTech-Dashboard</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <div class="header">
+            <div class="head">
+                <h2>Academic System</h2>
+                <small>Manage Student Courses</small>
+            </div>
+            <a th:href="@{/}" class="backBtn">Back</a>
+        </div>
+
+        <div class="semester">
+            <div class="view">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="display: none;">#</th>
+                            <th>One</th>
+                            <th>Two</th>
+                            <th>Three</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="stc: ${stCourseList}">
+                            <td th:text="${stc.id}" style="display: none;"></td>
+                            <td th:text="${stc.studentRegistration.student.regNo}"></td>
+                            <td th:text="${stc.course.courseDefinition.name}"></td>
+                            <td th:text="${stc.credits}"></td>
+                            <td th:text="${stc.results}"></td>
+                            <td>
+                                <div class="tdAction">
+                                    <button class="updateBtn">?</button>
+                                    <button class="deleteBtn">x</button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions">s
+                    <form action="saveStCourse" method="post" id="form" th:object="${stCourseForm}">
+                        <input type="hidden" id="id" name="id" th:field="*{id}" />
+                        <div class="form-input">
+                            <label for="regNo">Select St Registration</label>
+                            <select name="regNo" id="regNo" th:field="*{studentRegistration.id}">
+                                <option value="null">Select St Registration</option>
+                                <th:block th:each="reg : ${registrationList}">
+                                    <option th:value="${reg.id}">
+                                        [[${reg.student.regNo}]] [[${reg.student.fullNames}]]
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="course">Select Course</label>
+                            <select name="course" id="course" th:field="*{course.id}">
+                                <option value="null">Select Course</option>
+                                <th:block th:each="crs : ${courseList}">
+                                    <option th:value="${crs.id}">
+                                        [[${crs.courseDefinition.name}]]
+                                    </option>
+                                </th:block>
+                            </select>
+                        </div>
+                        <div class="form-input">
+                            <label for="credits">Enter Credits</label>
+                            <input type="number" name="credits" id="credits" required th:field="*{credits}"/>
+                        </div>
+                        <div class="form-input">
+                            <label for="results">Enter results</label>
+                            <input type="text" name="results" id="results" required th:field="*{results}"/>
+                        </div>
+                        <input type="submit" id="formBtn" value="Submit" name="action" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<script defer>
+    const form = document.getElementById("form");
+    const updateButtons = document.querySelectorAll('.updateBtn');
+    const deleteButtons = document.querySelectorAll('.deleteBtn');
+    const scIdInput = document.getElementById('id');
+    const stRegInput = document.getElementById('regNo');
+    const semInput = document.getElementById('course');
+    const creditInput = document.getElementById('credits');
+    const resultInput = document.getElementById('results');
+    const formBtn = document.getElementById('formBtn');
+
+    updateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            scIdInput.value = cells[0].textContent;
+            stRegInput.value = cells[1].textContent;
+            semInput.value = cells[2].textContent;
+            creditInput.value = cells[3].textContent;
+            resultInput.value = cells[4].textContent;
+            formBtn.value = 'Update';
+            formBtn.style.backgroundColor = '#2b9b58';
+        });
+    })
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            scIdInput.value = cells[0].textContent;
+            stRegInput.value = cells[1].textContent;
+            semInput.value = cells[2].textContent;
+            creditInput.value = cells[3].textContent;
+            resultInput.value = cells[4].textContent;
+            formBtn.value = 'Delete';
+            formBtn.style.backgroundColor = '#d13a3a';
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        form.action = "saveStCourse?action=" + formBtn.value;
+        form.submit();
+    });
+</script>

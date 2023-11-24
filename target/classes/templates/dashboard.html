@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>WebTech-Dashboard</title>
+    <link rel="stylesheet" th:href="@{/myStyles.css}" >
+</head>
+<body>
+
+<section>
+    <div class="contents" id="contents">
+        <div class="header">
+            <div class="head">
+                <h2>Student Registration System</h2>
+                <small>Welcome to our homepage</small>
+            </div>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <a th:href="@{academicUnit}"><li>AcademicUnit</li></a>
+                <a th:href="@{semester}"><li>Semester</li></a>
+                <a th:href="@{teachers}"><li>Teacher</li></a>
+                <a th:href="@{courses}"><li>Define Courses</li></a>
+                <a th:href="@{courseMain}"><li>Manage Courses</li></a>
+                <a th:href="@{student}"><li>Students</li></a>
+                <a th:href="@{studentRegistration}"><li>Student Registration</li></a>
+                <a th:href="@{studentCourse}"><li>Student Courses</li></a>
+                <a th:href="@{studentPerSem}"><li>Student per Semester</li></a>
+                <a th:href="@{studentPerDepAndSem}"><li>Student per Department and Semester</li></a>
+                <a th:href="@{StudentPerCourseAndSem}"><li>Student per Course and Semester</li></a>
+                <a th:href="@{coursesPerDepAndSem}"><li>Courses per Department and Semester</li></a>
+            </ul>
+            <ul class="big">
+                <a href="coursesPerStudent"><li>Courses per Student</li></a>
+            </ul>
+        </div>
+    </div>
+</section>
+</body>
+</html>
